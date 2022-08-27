@@ -1,0 +1,79 @@
+﻿@model Online_Grocery_Order.Models.Product
+
+@{
+    ViewBag.Title = "Single";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="col-md-5 single-right-left ">
+        <div class="grid images_3_of_2">
+            <div class="flexslider">
+                <ul class="slides">
+                    @{
+                        String img64 = Convert.ToBase64String(Model.Product_img);
+                        String img64url = string.Format("data:image/" + Model.Type + ";base64,{0}", img64);
+
+                        <img src="@img64url" alt="Forest" style="height:500px;width:400px;">
+                    }
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7 single-right-left simpleCart_shelfItem">
+        <h3>@Html.DisplayFor(model => model.Product_Name) </h3>
+
+        @*<p>
+            <span class="item_price">@Html.DisplayFor(model => model.Product_Price) Rs.</span>
+
+            <label>Free delivery</label>
+        </p>*@
+        
+    <div class="product-single-w3l">
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Calories) Calories / Unit
+        </p>
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Unit) Unit
+        </p>
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Weight) g Weight
+        </p>
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Price) Rs
+        </p>
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Price) Rs
+        </p>
+        <p>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i> <label>Free delivery</label>
+        </p>
+        @*<ul>
+            <li>
+                Doesn't just cover, Truly removes odours
+            </li>
+            <li>
+                Ambi Pur is a brand of air freshener products available in the United States, Europe, Asia and Oceania.
+            </li>
+            <li>
+                Their range of products may be used in the home or in the car with a variety of smells and properties such as odor neutralisation.
+            </li>
+            <li>
+                Transforms your home from smelly to smiley
+            </li>
+        </ul>*@
+
+    </div>
+        <div class="occasion-cart">
+
+            
+                <a href='@Url.Action("AddCart", "Cart", new { id = Model.Product_ID })'><div class="link-product-add-cart" style="width:200px;text-align:center;font-weight: bold;"> Add Cart </div></a>
+
+                @*@Html.ActionLink("Add Cart", "Cart", "Cart", new { id = Model.Product_ID })*@
+            
+
+        </div>
+
+    </div>
+    <div class="clearfix"> </div>
+</div>

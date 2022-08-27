@@ -1,0 +1,214 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Product>
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Cart
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        @if (Model.Count() > 0)
+        {
+
+            <table class="timetable_sub">
+                <thead>
+                    <tr>
+                        @*<th>Sno #</th>*@
+                        <th>Product Name</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Calories</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int price = 0;
+                        int sr = 0;
+                        int total_calories = 0;
+                        int sum_calories = 0;
+                        int total_bill = 0;
+                        int sum_product;
+                        int qty = 0;
+                        foreach (var item in Model)
+                        {
+
+                            sum_product = 0;
+                            qty = qty + item.Product_Quantity;
+                            price = price + item.Product_Price;
+                            sr = sr + 1;
+                            sum_product = item.Product_Price * item.Product_Quantity;
+                            sum_calories =item.Product_Calories * item.Product_Quantity;
+                            total_bill = total_bill + sum_product;
+                            total_calories = total_calories + sum_calories;
+                            String img64 = Convert.ToBase64String(item.Product_img);
+                            String img64Url = string.Format("data:image/" + item.Type + ";base64,{0}", img64);
+
+
+                                        <tr class="rem1">
+                                            @*<td class="invert">@sr</td>*@
+                                            <td class="invert" style="text-align:left"><b>@item.Product_Name </b>(@item.Product_Calories Cal / @item.Product_Unit Unit)</td>
+                                            <td class="invert-image">
+                                                <a href="single2.html">
+                                                    <img src="@img64Url" alt=" " class="img-responsive" style="width:30px;height:50px;">
+                                                </a>
+                                            </td>
+
+
+                                            <td class="invert">
+                                                <div class="quantity">
+                                                    <table class="table-borderless" align="center">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="entry value" style="font-size:20px;background-color:black;">
+                                                                    <span><a href='@Url.Action("Decrease", "Cart", new { id = item.Product_ID })' id="a1">-</a></span>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="entry value" style="font-size:20px;">
+                                                                    <span>@item.Product_Quantity</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="entry value" style="font-size:20px;background-color:black;">
+                                                                    <span><a href='@Url.Action("Increase", "Cart", new { id = item.Product_ID })' id="a1">+</a></span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </div>
+                                            </td>
+                                            @if (sum_calories >= 1000)
+                                            {
+                                                double cal = sum_calories / 1000;
+                                                <td class="invert">@cal kcal</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="invert">@sum_calories Cal</td>
+                                            }
+                                            <td class="invert">Rs @item.Product_Price</td>
+                                            <td class="invert">Rs @sum_product</td>
+                                            <td class="invert">
+                                                <div class="entry value" style="font-size:30px;background-color:black;">
+                                                    <span><a href='@Url.Action("Remove", "Cart", new { id = item.Product_ID })' id="a1">-</a></span>
+                                                </div>
+                                                @*<div class="link-product-add-cart" style="width:50px;height:30px; text-align:center;font-weight: bold;color:white;"> <a href='@Url.Action("Remove", "Cart", new { id = item.Product_ID })' id="a1"><i class="fa fa-minus" style="font-size:30px"></i></a></div>*@
+                                            </td>
+                                        </tr>
+
+                        }
+                        <tr>
+                            <td colspan="8">
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+                                        <table class="table" style="text-align:left;font-size:100px;padding:40px;" align="right">
+
+                                            <tr>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                    Total Qauntity
+                                                </td>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                    @qty
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                    Total Calories
+                                                </td>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                    @total_calories cal
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                    Total Bill
+                                                </td>
+                                                <td style="text-align:left;font-size:20px;padding:15px">
+                                                   Rs @total_bill
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <a href='@Url.Action("Cancel", "Cart")' id="a1"><i class="fa fa-trash-o" style="font-size:48px;color:red"></i></a>
+                                    <hr />
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        @using (Html.BeginForm("Insert_Order", "Order", FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <div class="form-horizontal">
+
+                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                                <div class="form-group">
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownList("address", new SelectList(ViewBag.Address, "Value", "Text"), new { @class = "form-control", style = "text-align:left;font-size:20px;height:40px;border-radius:30px;" })
+                                                        <br />
+                                                        @Html.DropDownList("repeat", new SelectList(ViewBag.Repeate, "Value", "Text"), new { @class = "form-control", style = "text-align:left;font-size:20px;height:40px;border-radius:30px;" })
+                                                        
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <br />
+                                                        <input type="submit" value="Order" class="link-product-add-cart" style="vertical-align: central;text-align:center;font-weight: bold;color:white;font-size:20px;border-radius:30px;width:180px;" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+        else
+        {
+            <h2>Cart Empty</h2>
+        }
+    </div>
+</div>
+<style>
+    /* unvisited link */
+    #a1:link {
+        color: white;
+    }
+
+    .a1:link {
+        color: white;
+    }
+
+    /* visited link */
+    #a1:visited {
+        color: white;
+    }
+
+    /* mouse over link */
+    #a1:hover {
+        color: white;
+    }
+
+    /* selected link */
+    #a1:active {
+        color: blue;
+    }
+</style>

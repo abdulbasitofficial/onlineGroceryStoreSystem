@@ -1,0 +1,231 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+
+@{
+    ViewBag.Title = "PickedDetails";
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<link href="~/notification/css/style.css" rel="stylesheet" />
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<section class="container">
+        <h3 class="m-b-50 heading-line">Picked Orders</h3>
+
+        <div class="notification-ui_dd-content">
+            @{
+                int orderID = 0;
+
+                foreach (var file in Model)
+                {
+                    orderID = file.order_ID;
+                    if (file.statusOrder != "Pending")
+                    {
+                        string status = file.statusOrder;
+                        if (status.Equals("Picked"))
+                        {
+                            <table align="center">
+                                <tr>
+                                    <td>
+                                        <img src="~/assets/status/On Process50.png" />
+                                    </td>
+
+                                    <td>
+                                        <img src="~/assets/status/line50.png" style="width:160px;height:50px;" />
+                                    </td>
+                                    <td>
+                                        <img src="~/assets/status/Pick Up50.png" />
+                                    </td>
+                                    <td>
+                                        <img src="~/assets/status/line50W.png" style="width:160px;height:50px;" />
+                                    </td>
+                                    @*<td>
+                                    <img src="~/assets/status/DeliveryW50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/line50W.png" />
+                                </td>*@
+                                    <td>
+                                        <img src="~/assets/status/Reached50.png" />
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+                        @*else if (status.Equals("Delivery"))
+                    {
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <img src="~/assets/status/On Process50.png" />
+                                </td>
+
+                                <td>
+                                    <img src="~/assets/status/line50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/Pick Up50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/line50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/Delivery50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/line50W.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/Reached50.png" />
+                                </td>
+                            </tr>
+                        </table>
+                    }*@
+                    }
+                    else
+                    {
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <img src="~/assets/status/Pick UpW50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/line50W.png" style="width:300px;height:50px;" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/On ProcessW50.png" />
+                                </td>
+                                <td>
+                                    <img src="~/assets/status/line50W.png" style="width:300px;height:50px;" />
+                                </td>
+                                @*<td>
+                                <img src="~/assets/status/DeliveryW50.png" />
+                            </td>
+                            <td>
+                                <img src="~/assets/status/line50W.png" />
+                            </td>*@
+                                <td>
+                                    <img src="~/assets/status/Reached50.png" />
+                                </td>
+                            </tr>
+                        </table>
+
+                    }
+
+
+                    <h5>Order No: @file.order_ID</h5>
+                    <div class="notification-list notification-list--unread">
+
+                        <div class="notification-list_content">
+                            <div class="notification-list_img">
+                                @if (file.Account_img != null)
+                                {
+                                    String img64 = Convert.ToBase64String(file.Account_img);
+                                    String img64Url = string.Format("data:image/" + file.type_img + ";base64,{0}", img64);
+                                    <img src='@img64Url' style="max-width:100px;max-height:100px" / >
+                                }
+                                else
+                                {
+                                    <img src="~/images/logo2.png">
+                                }
+
+                            </div>
+                            <div class="notification-list_detail">
+                                <p style="font-size:20px;"><b>@file.Full_Name</b> (Order: @file.order_ID)</p>
+
+                                <p class="text-muted"><middle><b>Order On:</b>@file.OrderDate</middle></p>
+                                <p class="text-muted"> <middle><b>Picked On: </b>@file.PickedDate</middle></p>
+                                <p class="text-muted" style="font-size:15px;">@file.Address</p>
+                                @*<p class="text-muted" style="font-size:15px;"><b>Status: </b> @file.statusOrder</p>*@
+                            </div>
+                        </div>
+
+                        <div class="notification-list_feature-img" align="center">
+                            <div class="link-product-add"> <a href='@Url.Action("OrdersDetails", "Order", new { id = file.order_ID, name = file.Full_Name })' id="a1"><img src="~/assets/images/details.png" style="width:40px;height:40px;padding-right:10px" /></a></div>
+                            <br />
+                            <div class="link-product-add"> <a href='@Url.Action("Delivered", "Order", new { id = file.order_ID })' id="a1"><i class="fa fa-check" style="font-size:30px;color:green"></i></a></div>
+                        </div>
+
+                    </div>
+
+
+                    @*<div class="container">
+                    @using (Html.BeginForm("Status", "Order", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <table>
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <tr>
+                                <td class="col-md-10">
+                                    <input type="hidden" name="orderid" value="@orderID">
+                                    @Html.DropDownList("status", new SelectList(ViewBag.Status, "Value", "Text"), "- Update Status -", new { @class = "form-control" })
+                                </td>
+                                <td class="col-md-2">
+                                    <input type="submit" value="Status Update" class="btn btn-danger" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    }
+
+                </div>*@
+
+                    <div class="container col-md-12">
+                        @using (Html.BeginForm("AssignOrder", "Order", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <table>
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <tr>
+                                    <td class="col-md-10">
+                                        <input type="hidden" name="orderid" value="@file.rid">
+                                        @Html.DropDownList("userid", new SelectList(ViewBag.DeliveryBoy, "Value", "Text"), new { @class = "form-control", style = "text-align:left;font-size:20px;height:40px;border-radius:10px;width:360px;" })
+                                    </td>
+                                    <td class="col-md-2">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="submit" value="Assign" class="btn btn-danger" style="width:100px;height:40px;border-radius:30px;font-size:20px;" />
+                                    </td>
+                                </tr>
+
+                            </table>
+                        }
+
+                    </div>
+                    <hr />
+
+                }
+
+
+
+
+            }
+
+        </div>
+
+    </div>
+</section>
+<style>
+    /* unvisited link */
+    #a1:link {
+        color: white;
+    }
+
+    .a1:link {
+        color: white;
+    }
+
+    /* visited link */
+    #a1:visited {
+        color: white;
+    }
+
+    /* mouse over link */
+    #a1:hover {
+        color: orange;
+    }
+
+    /* selected link */
+    #a1:active {
+        color: blue;
+    }
+</style>

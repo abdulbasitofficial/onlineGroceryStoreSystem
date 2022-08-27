@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/Javascript" language="javascript">
+
+    function confirm_Delete() {
+        if (confirm("Do you want to Delete ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function confirm_Update() {
+        if (confirm("Do you want to Update ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+/**/</script>
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title" style="text-align:center">Accounts</h2>
+                <div class="container">
+                        @if (Model.Count() > 0)
+                        {
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Full_Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Password)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Home Address")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Address Office")
+                                    </th>
+                                   
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Contact)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Type")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Image")
+                                    </th>
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.Register_Date)
+                                    </th>*@
+                                    <th>
+                                        Update
+                                    </th>
+
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Full_Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Password)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Address)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Address_Office)
+                                        </td>
+                                        
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Contact)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User_Type)
+                                        </td>
+                                        <td>
+                                            @if (item.Account_img != null)
+                                            {
+                                                String img64 = Convert.ToBase64String(item.Account_img);
+                                                String img64Url = string.Format("data:image/" + item.type_img + ";base64,{0}", img64);
+                                                <img src="@img64Url" alt="Forest" style="height:50px;width:50px;border-radius:50%;">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/dp.png" style="height:50px;width:50px;border-radius:50%;" />
+                                            }
+
+                                        </td>
+                                        @*<td>
+                                            @Html.DisplayFor(modelItem => item.Register_Date)
+                                        </td>*@
+                                        <td style="text-align:center;">
+                                            <a href='@Url.Action("Edit", "Account", new { id = item.id })' OnClick=" return confirm_Update()"><i class="fa fa-edit" style="font-size:25px"></i></a>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        }
+                        else
+                        {
+                            <h1>Empty Record</h1>
+                        }
+                        <div style="font-weight:100px;font-size:20px;">
+                            <ul class="inline">
+                                @{
+                                    double totalpages = ViewBag.TotalPages;
+                                    for (int i = 1; i <= totalpages; i++)
+                                    {
+                                        <li>
+                                            <div style="background-color:black;color:white;padding:10px;border-radius:10px;">
+                                                @Html.ActionLink(i.ToString(), "Account", new { Page = i })
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

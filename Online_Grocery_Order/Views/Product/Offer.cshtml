@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Product>
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/js/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/js/jquery-2.1.4.min.js"></script>
+<script src="~/js/js/bootstrap.js"></script>
+<h2 style="text-align:center">Attached Product</h2>
+<center class="container">
+    
+    <div class="row" align="center" style="padding-left:40px;padding-top:2px">
+        @if (Model.Count() > 0)
+        {
+
+            foreach (var file in Model)
+            {
+                var list = ViewBag.CartCheck;
+                String img64 = Convert.ToBase64String(file.Product_img);
+                String img64Url = string.Format("data:image/" + file.Type + ";base64,{0}", img64);
+
+
+                DateTime Now_Date = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                int cdd = Now_Date.Day;
+                int cmm = Now_Date.Month;
+                int cyy = Now_Date.Year;
+
+                int pdd = file.Insert_Date.Day;
+                int pmm = file.Insert_Date.Month;
+                int pyy = file.Insert_Date.Year;
+
+                System.DateTime current = new System.DateTime(cyy, cmm, cdd);
+                System.DateTime previous = new System.DateTime(pyy, pmm, pdd);
+                System.TimeSpan diffResult = current.Subtract(previous);
+
+
+                <div class="ccol-md-2" style="padding-bottom:50px;padding-right:20px;">
+                    <div class="men-thumb-item">
+                        <img src="@img64Url" style="width:200px;height:220px;border-width :10px;border: 2px solid black;border-color:orangered;border-radius:15px;">
+                       
+                        
+                            <a href='@Url.Action("Offer", "Product")'>
+                                <span class="product-new-top">Sale</span>
+                             </a>
+                        
+                        </div>
+                    <div class="item-info-product ">
+                        <h4>
+                            @file.Product_Name | @file.Product_Unit Unit
+                        </h4>
+
+                        @if (file.Product_Calories >= 1000)
+                        {
+                            double cal = file.Product_Calories / 1000;
+                            <h4 style="font-size:15px;">
+                                @cal Kcal / Unit
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 style="font-size:15px;">
+                                @file.Product_Calories Cal / Unit
+                            </h4>
+                         }
+                               
+                            <div class="info-product-price" style="font-size:15px;">
+                                @if (file.Product_Weight >= 1000)
+                                {
+                                    double weight = file.Product_Weight / 1000;
+                                    <span class="item_price">@weight kg | Rs. @file.Product_Price </span>
+
+                                }
+                                else
+                                {
+                                    <span class="item_price">@file.Product_Weight gm | Rs. @file.Product_Price </span>
+                                }
+
+                            </div>
+                          
+                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                               
+                                <a href='@Url.Action("AddCart", "Product", new { id = file.Product_ID })'> <div class="link-product-add-cart" style="width:150px;font-weight: bold;padding-top:5px;border-radius:10px;"> <i class="fa fa-cart-plus" aria-hidden="true" style="font-size:30px;"></i> Cart</div></a>
+                            </div>
+
+                        </div>
+                </div>
+            }
+        }
+    </div>
+</center>
+
+
+@*<div style="font-size:20px;" class="container">
+    <ul class="inline">
+        @{
+            double totalpages = ViewBag.TotalPages;
+            for (int i = 1; i <= totalpages; i++)
+            {
+                <li class="pagination">
+
+                    @Html.ActionLink(i.ToString(), "Product", new { Page = i }, new { @class = "btn btn-primary" })
+
+                </li>
+            }
+        }
+    </ul>
+</div>*@
+<!-- //product right -->
+<!-- //top products -->
+<style>
+    .btn {
+        background-color: orangered;
+        border: none;
+        color: white;
+        padding: 10px 10px 10px 10px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition: 0.3s;
+    }
+
+        .btn:hover {
+            background-color: black;
+            color: white;
+        }
+</style>

@@ -1,0 +1,174 @@
+﻿@model Online_Grocery_Order.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+<script type="text/javascript">
+    function CheckNumericValue(e) {
+        var key = e.which ? e.which : e.keyCode;
+        //enter key  //backspace //tabkey      //escape key
+        if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27) {
+            return true;
+        }
+        else {
+            alert("Please Enter Number Only");
+            return false;
+        }
+    }
+</script>
+<script type="text/javascript">
+    function AllowAlphabet(e) {
+        var key = e.which ? e.which : e.keyCode;
+        //enter key  //backspace //tabkey      //escape key
+        if ((key >= 97 && key <= 122) || (key >= 65 && key <= 90) || (key = 32)) {
+            return true;
+        }
+        else {
+            alert("Please Enter Characrter Only");
+            return false;
+        }
+    }
+</script>
+<script type='text/javascript'>
+    function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+<link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/vendor/datepicker/moment.min.js"></script>
+<script src="~/vendor/select2/select2.min.js"></script>
+<link href="~/vendor/select2/select2.min.css" rel="stylesheet" />
+<link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" />
+<link href="~/vendor/mdi-font/css/material-design-iconic-font.css" rel="stylesheet" />
+<script src="~/vendor/datepicker/daterangepicker.js"></script>
+<script src="~/vendor/global.js"></script>
+<link href="~/vendor/datepicker/daterangepicker.css" rel="stylesheet" />
+<script src="~/vendor/jquery/jquery.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<link href="~/vendor/font-awesome-4.7/css/font-awesome.css" rel="stylesheet" />
+
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">Edit Product</h2>
+                <div class="container">
+                    <div class="container">
+                        @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                          
+                            <Center><h1>@ViewBag.Res</h1></Center>
+
+                            @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal" style="text-align:left">
+
+                        <hr />
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_img, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left" })
+                            <div class="col-md-8">
+                                @if (Model.Product_img != null)
+                                {
+                                    String img64 = Convert.ToBase64String(Model.Product_img);
+                                    String img64Url = string.Format("data:image/" + Model.Type + ";base64,{0}", img64);
+                                    <img src="@img64Url" id="output_image" style="border-radius: 50%;border: 10px solid transparent;padding: 15px;border-image: url(border.png) 30 stretch;" width="200px" height="200px">
+
+                                }
+                                else
+                                {
+                                    <img src="~/assets/1200px-Blue_question_mark_icon.svg.png" id="output_image" style="border-radius: 50%;border: 10px solid transparent;padding: 15px;border-image: url(border.png) 30 stretch;" width="200px" height="200px">
+
+                                }
+                                <input type="file" name="PostedFile" accept="image/*" onchange="preview_image(event)" />
+                                @Html.ValidationMessageFor(model => model.Product_img, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_ID, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_ID, new { htmlAttributes = new { @class = "form-control", @readonly = true, style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Name, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Name, new { htmlAttributes = new { @class = "form-control", onkeypress = "return AllowAlphabet(event)", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Price, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Price, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Unit, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Unit, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:40px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Unit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Quantity, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Quantity, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Weight, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Weight, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Weight, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Calories, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Calories, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Calories, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Product_Deacription, htmlAttributes: new { @class = "control-label col-md-2", style = "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Product_Deacription, new { htmlAttributes = new { @class = "form-control", style = "text-align:left;font-size:20px;height:30px;border-radius:30px;;width:500px;" } })
+                                @Html.ValidationMessageFor(model => model.Product_Deacription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Update Product" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

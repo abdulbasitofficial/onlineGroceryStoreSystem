@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+
+@{
+    ViewBag.Title = "Admin_History";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+
+<link href="~/notification/css/style.css" rel="stylesheet" />
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<section class="" style="margin-left:10px;margin-right:10px;">
+    <div class="container">
+        <h3 class="m-b-50 heading-line">Orders History</h3>
+
+        <div class="notification-ui_dd-content">
+            @foreach (var file in Model)
+            {
+                <h4>Order ID: @file.rid</h4>
+                <div class="notification-list notification-list--unread">
+                    <div class="notification-list_content">
+                        <div class="notification-list_img">
+                            @if (file.Account_img != null)
+                            {
+                                //String img64 = Convert.ToBase64String(file.Account_img);
+                                //String img64Url = string.Format("data:image/" + file.type_img + ";base64,{0}", img64);
+                                var base64 = Convert.ToBase64String(file.Account_img);
+                                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                <img src='@imgsrc' style="max-width:100px;max-height:100px" / >
+                            }
+                            else
+                            {
+                                <img src="~/images/logo2.png">
+                            }
+
+                        </div>
+                        <div class="notification-list_detail">
+
+                            <p><b>@file.Full_Name</b></p>
+
+                            <p class="text-muted"><b>Order On: </b><small>@file.Register_Date</small></p>
+                            <p class="text-muted"><b>Picked On: </b><small>@file.PickedDate</small></p>
+                            <p class="text-muted"><b>Delivered On: </b><small>@file.DeliveredDate</small></p>
+                            @foreach (var lis in ViewBag.DeliveryBoyAssign)
+                            {
+                                if (lis.id == file.boy_ID)
+                                {
+                                    <p class="text-muted"><b>Picked By: </b><small>@lis.Full_Name</small></p>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="notification-list_feature-img" align="center">
+                        <div class="link-product-add" style="width:100px;text-align:center;font-weight: bold;color:white;"> <a href='@Url.Action("OrdersDetailsAdmin", "Order", new { id = file.order_ID, name=file.Full_Name,address=file.Address })' id="a1"><img src="~/assets/images/details.png" style="width:40px;height:40px;padding-right:20px;" /></a></div><br />
+                        <div class="link-product-add" style="width:100px;text-align:center;font-weight: bold;">
+                        @if (file.statusOrder == "Cancel")
+                        {<i class="fa fa-close" style="font-size:25px;color:red"></i> }
+                        else {<i class="fa fa-check" style="font-size:25px;color:green"></i> }</div>
+
+</div>
+
+</div>
+            }
+        </div>
+    </div>
+</section>
+

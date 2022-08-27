@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin</title>
+        <link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="~/assets/admin/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+        <link type="text/css" href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="~/assets/admin/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="css/theme.css" rel="stylesheet">
+        <link href="~/assets/admin/css/theme.css" rel="stylesheet" />
+        <link type="text/css" href="images/icons/css/font-awesome.css" rel="stylesheet">
+        <link type="text/css" href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600'
+              rel='stylesheet'>
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    </a><a class="brand" href="index.html">Admin: @Session["name"]</a>
+                    <ul class="nav pull-right">
+
+
+                        <li class="nav-user dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @if (Session["email"] != null)
+                                {
+                                    String img64 = Convert.ToBase64String((byte[])Session["image"]);
+                                    String img64Url = string.Format("data:image/" + Session["img-type"] + ";base64,{0}", img64);
+                                    <img src="@img64Url" class="nav-avatar" />
+                                }
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href='@Url.Action("Account", "Account")'>Accounts </a></li>
+                                <li><a href='@Url.Action("Category", "Category")'>Category </a></li>
+                                <li><a href='@Url.Action("Product", "Product")'>Products </a></li>
+                                <li><a href='@Url.Action("RepeatOrder", "Order")'>Repeat Order </a></li>
+                                <li><a href='@Url.Action("PendingOrder", "Order")'>Pending Order </a></li>
+                                <li><a href='@Url.Action("Admin_History", "History")'>Order History </a></li>
+                                <li><a href='@Url.Action("LogOut", "Account")'>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    @*</a><a class="brand" href="index.html">Admin: @Session["name"]</a>*@
+                    <div class="nav-collapse collapse navbar-inverse-collapse">
+
+
+                    </div>
+                    <!-- /.nav-collapse -->
+                </div>
+            </div>
+            <!-- /navbar-inner -->
+        </div>
+        <!-- /navbar -->
+        
+                    <!--/.span3-->
+                    
+                        @RenderBody()
+                        <!--/.content-->
+                   
+                    <!--/.span9-->
+               
+            <!--/.container-->
+        
+        <!--/.wrapper-->
+    <div class="footer">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="container" style="font-size:20px;text-align:center;">
+            © 2021 Final Year Project PMAS ARID AGRICULTURRE UNIVERSITY (BIIT)<br /><br />
+
+        </div>
+    </div>
+        <script src="scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+        <script src="~/assets/admin/scripts/jquery-1.9.1.min.js"></script>
+        <script src="scripts/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+        <script src="~/assets/admin/scripts/jquery-ui-1.10.1.custom.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="~/assets/admin/bootstrap/js/bootstrap.min.js"></script>
+        <script src="scripts/flot/jquery.flot.js" type="text/javascript"></script>
+        <script src="~/assets/admin/scripts/flot/jquery.flot.js"></script>
+        <script src="scripts/flot/jquery.flot.resize.js" type="text/javascript"></script>
+        <script src="~/assets/admin/scripts/flot/jquery.flot.resize.js"></script>
+        <script src="scripts/datatables/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="~/assets/admin/scripts/datatables/jquery.dataTables.js"></script>
+        <script src="~/assets/admin/scripts/common.js"></script>
+        <script src="scripts/common.js" type="text/javascript"></script>
+
+    </body>
+</html>
+   

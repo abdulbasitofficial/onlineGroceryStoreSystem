@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="groceryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="c_id" />
+          </Key>
+          <Property Name="c_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="c_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_name" Type="varchar" MaxLength="100" />
+          <Property Name="p_price" Type="int" />
+          <Property Name="p_quantity" Type="int" />
+          <Property Name="p_weight" Type="int" />
+          <Property Name="p_calories" Type="varchar" MaxLength="50" />
+          <Property Name="p_description" Type="varchar" MaxLength="200" />
+          <Property Name="p_img" Type="varbinary(max)" />
+          <Property Name="p_img_type" Type="varchar" MaxLength="20" />
+          <Property Name="c_id" Type="int" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="u_name" Type="varchar" MaxLength="50" />
+          <Property Name="u_email" Type="varchar" MaxLength="70" />
+          <Property Name="u_address" Type="varchar" MaxLength="200" />
+          <Property Name="u_contact" Type="varchar" MaxLength="50" />
+          <Property Name="u_type" Type="varchar" MaxLength="20" />
+          <Property Name="u_img" Type="varbinary(max)" />
+          <Property Name="u_img_type" Type="varchar" MaxLength="20" />
+          <Property Name="u_gender" Type="nchar" MaxLength="6" />
+          <Property Name="u_password" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__product__c_id__182C9B23">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="c_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="c_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="groceryModelStoreContainer">
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__product__c_id__182C9B23" Association="Self.FK__product__c_id__182C9B23">
+            <End Role="category" EntitySet="category" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="groceryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="c_id" />
+          </Key>
+          <Property Name="c_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="c_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="products" Relationship="Self.FK__product__c_id__182C9B23" FromRole="category" ToRole="product" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="p_price" Type="Int32" />
+          <Property Name="p_quantity" Type="Int32" />
+          <Property Name="p_weight" Type="Int32" />
+          <Property Name="p_calories" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="p_description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="p_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="p_img_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="c_id" Type="Int32" />
+          <NavigationProperty Name="category" Relationship="Self.FK__product__c_id__182C9B23" FromRole="product" ToRole="category" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="u_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_email" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="u_address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="u_contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="u_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="u_img_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="u_gender" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="u_password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__product__c_id__182C9B23">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="c_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="c_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK__product__c_id__182C9B23" Association="Self.FK__product__c_id__182C9B23">
+            <End Role="category" EntitySet="categories" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="groceryModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="groceryModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="c_id" ColumnName="c_id" />
+                <ScalarProperty Name="c_name" ColumnName="c_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="groceryModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="p_name" ColumnName="p_name" />
+                <ScalarProperty Name="p_price" ColumnName="p_price" />
+                <ScalarProperty Name="p_quantity" ColumnName="p_quantity" />
+                <ScalarProperty Name="p_weight" ColumnName="p_weight" />
+                <ScalarProperty Name="p_calories" ColumnName="p_calories" />
+                <ScalarProperty Name="p_description" ColumnName="p_description" />
+                <ScalarProperty Name="p_img" ColumnName="p_img" />
+                <ScalarProperty Name="p_img_type" ColumnName="p_img_type" />
+                <ScalarProperty Name="c_id" ColumnName="c_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="groceryModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="u_name" ColumnName="u_name" />
+                <ScalarProperty Name="u_email" ColumnName="u_email" />
+                <ScalarProperty Name="u_address" ColumnName="u_address" />
+                <ScalarProperty Name="u_contact" ColumnName="u_contact" />
+                <ScalarProperty Name="u_type" ColumnName="u_type" />
+                <ScalarProperty Name="u_img" ColumnName="u_img" />
+                <ScalarProperty Name="u_img_type" ColumnName="u_img_type" />
+                <ScalarProperty Name="u_gender" ColumnName="u_gender" />
+                <ScalarProperty Name="u_password" ColumnName="u_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

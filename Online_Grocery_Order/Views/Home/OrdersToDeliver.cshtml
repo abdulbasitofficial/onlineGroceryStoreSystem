@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+
+@{
+    ViewBag.Title = "OrdersToDeliver";
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<link href="~/notification/css/style.css" rel="stylesheet" />
+
+<section class="section-50">
+    <div class="container">
+        <h3 class="m-b-50 heading-line">Orders <i class="fa fa-bell text-muted"></i></h3>
+
+        <div class="notification-ui_dd-content">
+
+            @if (Model.Count() > 0)
+            {
+
+                foreach (var file in Model)
+                {
+                    String img64 = Convert.ToBase64String(file.Account_img);
+                    String img64Url = string.Format("data:image/" + file.type_img + ";base64,{0}", img64);
+                    <div class="notification-list notification-list--unread">
+                        <div class="notification-list_content">
+                            <div class="notification-list_img">
+                                <img src="@img64Url">
+                            </div>
+                            <div class="notification-list_detail">
+                                <p><b>@file.Full_Name</b> Order Now</p>
+                                <p class="text-muted">@file.Address</p>
+                                <p class="text-muted"><small>10 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="notification-list_feature-img">
+                            <img src="images/features/random1.jpg" alt="Feature image">
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+

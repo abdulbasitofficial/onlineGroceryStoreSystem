@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="groceryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="attach">
+          <Key>
+            <PropertyRef Name="AttachID" />
+          </Key>
+          <Property Name="AttachID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pid" Type="int" />
+          <Property Name="AttachProduct" Type="int" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_id" Type="int" />
+          <Property Name="u_id" Type="int" />
+          <Property Name="qty" Type="int" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="c_id" />
+          </Key>
+          <Property Name="c_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="c_name" Type="varchar" MaxLength="50" />
+          <Property Name="i_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="v_id" />
+          </Key>
+          <Property Name="v_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_id" Type="int" />
+          <Property Name="p_qty" Type="int" />
+          <Property Name="o_id" Type="int" />
+          <Property Name="p_price" Type="int" />
+          <Property Name="p_return" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="o_id" />
+          </Key>
+          <Property Name="o_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="u_id" Type="int" />
+          <Property Name="o_date" Type="datetime" />
+          <Property Name="shipping" Type="varchar(max)" />
+          <Property Name="repeat" Type="varchar(max)" />
+          <Property Name="period" Type="int" />
+          <Property Name="status" Type="varchar(max)" />
+          <Property Name="boy_id" Type="int" />
+          <Property Name="p_date" Type="datetime" />
+          <Property Name="c_date" Type="datetime" />
+          <Property Name="d_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="p_name" Type="varchar(max)" />
+          <Property Name="p_quantity" Type="int" />
+          <Property Name="p_weight" Type="int" />
+          <Property Name="p_description" Type="varchar(max)" />
+          <Property Name="p_calories" Type="int" />
+          <Property Name="p_img" Type="varbinary(max)" />
+          <Property Name="p_price" Type="int" />
+          <Property Name="p_img_type" Type="varchar" MaxLength="50" />
+          <Property Name="c_id" Type="int" />
+          <Property Name="i_date" Type="datetime" />
+          <Property Name="p_unit" Type="int" />
+          <Property Name="p_offer" Type="varchar(max)" />
+          <Property Name="p_discount" Type="int" />
+        </EntityType>
+        <EntityType Name="repeat">
+          <Key>
+            <PropertyRef Name="r_id" />
+          </Key>
+          <Property Name="r_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="o_id" Type="int" />
+          <Property Name="u_id" Type="int" />
+          <Property Name="o_date" Type="datetime" />
+          <Property Name="status" Type="varchar(max)" />
+          <Property Name="shipping" Type="varchar(max)" />
+          <Property Name="p_date" Type="datetime" />
+          <Property Name="d_date" Type="datetime" />
+          <Property Name="c_date" Type="datetime" />
+          <Property Name="boy_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="u_name" Type="varchar" MaxLength="50" />
+          <Property Name="u_address" Type="varchar" MaxLength="200" />
+          <Property Name="u_contact" Type="varchar" MaxLength="50" />
+          <Property Name="u_type" Type="varchar" MaxLength="50" />
+          <Property Name="u_img" Type="varbinary(max)" />
+          <Property Name="u_img_type" Type="varchar" MaxLength="50" />
+          <Property Name="u_gender" Type="varchar" MaxLength="50" />
+          <Property Name="u_password" Type="varchar" MaxLength="50" />
+          <Property Name="u_email" Type="varchar" MaxLength="50" />
+          <Property Name="i_date" Type="datetime" />
+          <Property Name="u_address_office" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_attach_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="attach" Type="Self.attach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="attach">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inovice_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_invoice_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="o_id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="o_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_users2">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="boy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="c_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="c_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_repeat_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="repeat" Type="Self.repeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="o_id" />
+            </Principal>
+            <Dependent Role="repeat">
+              <PropertyRef Name="o_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_repeat_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="repeat" Type="Self.repeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="repeat">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="groceryModelStoreContainer">
+          <EntitySet Name="attach" EntityType="Self.attach" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cart" EntityType="Self.cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="invoice" EntityType="Self.invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="repeat" EntityType="Self.repeat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_attach_product" Association="Self.FK_attach_product">
+            <End Role="product" EntitySet="product" />
+            <End Role="attach" EntitySet="attach" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_product" Association="Self.FK_cart_product">
+            <End Role="product" EntitySet="product" />
+            <End Role="cart" EntitySet="cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_users" Association="Self.FK_cart_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="cart" EntitySet="cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inovice_users" Association="Self.FK_inovice_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_invoice_order" Association="Self.FK_invoice_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="invoice" EntitySet="invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_product" Association="Self.FK_order_product">
+            <End Role="product" EntitySet="product" />
+            <End Role="invoice" EntitySet="invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_users2" Association="Self.FK_order_users2">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_category" Association="Self.FK_product_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_repeat_order" Association="Self.FK_repeat_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="repeat" EntitySet="repeat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_repeat_users" Association="Self.FK_repeat_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="repeat" EntitySet="repeat" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="groceryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="attach">
+          <Key>
+            <PropertyRef Name="AttachID" />
+          </Key>
+          <Property Name="AttachID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pid" Type="Int32" />
+          <Property Name="AttachProduct" Type="Int32" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_id" Type="Int32" />
+          <Property Name="u_id" Type="Int32" />
+          <Property Name="qty" Type="Int32" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="c_id" />
+          </Key>
+          <Property Name="c_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="c_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="i_date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="v_id" />
+          </Key>
+          <Property Name="v_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_id" Type="Int32" />
+          <Property Name="p_qty" Type="Int32" />
+          <Property Name="o_id" Type="Int32" />
+          <Property Name="p_price" Type="Int32" />
+          <Property Name="p_return" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="o_id" />
+          </Key>
+          <Property Name="o_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="u_id" Type="Int32" />
+          <Property Name="o_date" Type="DateTime" Precision="3" />
+          <Property Name="shipping" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="repeat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="period" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="boy_id" Type="Int32" />
+          <Property Name="p_date" Type="DateTime" Precision="3" />
+          <Property Name="c_date" Type="DateTime" Precision="3" />
+          <Property Name="d_date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="p_id" />
+          </Key>
+          <Property Name="p_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="p_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="p_quantity" Type="Int32" />
+          <Property Name="p_weight" Type="Int32" />
+          <Property Name="p_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="p_calories" Type="Int32" />
+          <Property Name="p_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="p_price" Type="Int32" />
+          <Property Name="p_img_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="c_id" Type="Int32" />
+          <Property Name="i_date" Type="DateTime" Precision="3" />
+          <Property Name="p_unit" Type="Int32" />
+          <Property Name="p_offer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="p_discount" Type="Int32" />
+          </EntityType>
+        <EntityType Name="repeat">
+          <Key>
+            <PropertyRef Name="r_id" />
+          </Key>
+          <Property Name="r_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="o_id" Type="Int32" />
+          <Property Name="u_id" Type="Int32" />
+          <Property Name="o_date" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="shipping" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="p_date" Type="DateTime" Precision="3" />
+          <Property Name="d_date" Type="DateTime" Precision="3" />
+          <Property Name="c_date" Type="DateTime" Precision="3" />
+          <Property Name="boy_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="u_id" />
+          </Key>
+          <Property Name="u_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="u_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="u_contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="u_img_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="u_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="i_date" Type="DateTime" Precision="3" />
+          <Property Name="u_address_office" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          </EntityType>
+        <Association Name="FK_attach_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="attach" Type="Self.attach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="attach">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cart_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="c_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="c_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_invoice_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="o_id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="o_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_product">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="p_id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inovice_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_users2">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="boy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_repeat_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="repeat" Type="Self.repeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="o_id" />
+            </Principal>
+            <Dependent Role="repeat">
+              <PropertyRef Name="o_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_repeat_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="repeat" Type="Self.repeat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="u_id" />
+            </Principal>
+            <Dependent Role="repeat">
+              <PropertyRef Name="u_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="groceryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="attaches" EntityType="Self.attach" />
+          <EntitySet Name="carts" EntityType="Self.cart" />
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="invoices" EntityType="Self.invoice" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="repeats" EntityType="Self.repeat" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_attach_product" Association="Self.FK_attach_product">
+            <End Role="product" EntitySet="products" />
+            <End Role="attach" EntitySet="attaches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_product" Association="Self.FK_cart_product">
+            <End Role="product" EntitySet="products" />
+            <End Role="cart" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cart_users" Association="Self.FK_cart_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="cart" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_category" Association="Self.FK_product_category">
+            <End Role="category" EntitySet="categories" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_invoice_order" Association="Self.FK_invoice_order">
+            <End Role="order" EntitySet="orders" />
+            <End Role="invoice" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_product" Association="Self.FK_order_product">
+            <End Role="product" EntitySet="products" />
+            <End Role="invoice" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inovice_users" Association="Self.FK_inovice_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_users2" Association="Self.FK_order_users2">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_repeat_order" Association="Self.FK_repeat_order">
+            <End Role="order" EntitySet="orders" />
+            <End Role="repeat" EntitySet="repeats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_repeat_users" Association="Self.FK_repeat_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="repeat" EntitySet="repeats" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="groceryModelStoreContainer" CdmEntityContainer="groceryEntities">
+          <EntitySetMapping Name="attaches">
+            <EntityTypeMapping TypeName="groceryModel.attach">
+              <MappingFragment StoreEntitySet="attach">
+                <ScalarProperty Name="AttachID" ColumnName="AttachID" />
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+                <ScalarProperty Name="AttachProduct" ColumnName="AttachProduct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="groceryModel.cart">
+              <MappingFragment StoreEntitySet="cart">
+                <ScalarProperty Name="cart_id" ColumnName="cart_id" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="qty" ColumnName="qty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="groceryModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="c_id" ColumnName="c_id" />
+                <ScalarProperty Name="c_name" ColumnName="c_name" />
+                <ScalarProperty Name="i_date" ColumnName="i_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="invoices">
+            <EntityTypeMapping TypeName="groceryModel.invoice">
+              <MappingFragment StoreEntitySet="invoice">
+                <ScalarProperty Name="v_id" ColumnName="v_id" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="p_qty" ColumnName="p_qty" />
+                <ScalarProperty Name="o_id" ColumnName="o_id" />
+                <ScalarProperty Name="p_price" ColumnName="p_price" />
+                <ScalarProperty Name="p_return" ColumnName="p_return" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="groceryModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="o_id" ColumnName="o_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="o_date" ColumnName="o_date" />
+                <ScalarProperty Name="shipping" ColumnName="shipping" />
+                <ScalarProperty Name="repeat" ColumnName="repeat" />
+                <ScalarProperty Name="period" ColumnName="period" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="boy_id" ColumnName="boy_id" />
+                <ScalarProperty Name="p_date" ColumnName="p_date" />
+                <ScalarProperty Name="c_date" ColumnName="c_date" />
+                <ScalarProperty Name="d_date" ColumnName="d_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="groceryModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="p_name" ColumnName="p_name" />
+                <ScalarProperty Name="p_quantity" ColumnName="p_quantity" />
+                <ScalarProperty Name="p_weight" ColumnName="p_weight" />
+                <ScalarProperty Name="p_description" ColumnName="p_description" />
+                <ScalarProperty Name="p_calories" ColumnName="p_calories" />
+                <ScalarProperty Name="p_img" ColumnName="p_img" />
+                <ScalarProperty Name="p_price" ColumnName="p_price" />
+                <ScalarProperty Name="p_img_type" ColumnName="p_img_type" />
+                <ScalarProperty Name="c_id" ColumnName="c_id" />
+                <ScalarProperty Name="i_date" ColumnName="i_date" />
+                <ScalarProperty Name="p_unit" ColumnName="p_unit" />
+                <ScalarProperty Name="p_offer" ColumnName="p_offer" />
+                <ScalarProperty Name="p_discount" ColumnName="p_discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="repeats">
+            <EntityTypeMapping TypeName="groceryModel.repeat">
+              <MappingFragment StoreEntitySet="repeat">
+                <ScalarProperty Name="r_id" ColumnName="r_id" />
+                <ScalarProperty Name="o_id" ColumnName="o_id" />
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="o_date" ColumnName="o_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="shipping" ColumnName="shipping" />
+                <ScalarProperty Name="p_date" ColumnName="p_date" />
+                <ScalarProperty Name="d_date" ColumnName="d_date" />
+                <ScalarProperty Name="c_date" ColumnName="c_date" />
+                <ScalarProperty Name="boy_id" ColumnName="boy_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="groceryModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="groceryModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="u_id" ColumnName="u_id" />
+                <ScalarProperty Name="u_name" ColumnName="u_name" />
+                <ScalarProperty Name="u_address" ColumnName="u_address" />
+                <ScalarProperty Name="u_contact" ColumnName="u_contact" />
+                <ScalarProperty Name="u_type" ColumnName="u_type" />
+                <ScalarProperty Name="u_img" ColumnName="u_img" />
+                <ScalarProperty Name="u_img_type" ColumnName="u_img_type" />
+                <ScalarProperty Name="u_gender" ColumnName="u_gender" />
+                <ScalarProperty Name="u_password" ColumnName="u_password" />
+                <ScalarProperty Name="u_email" ColumnName="u_email" />
+                <ScalarProperty Name="i_date" ColumnName="i_date" />
+                <ScalarProperty Name="u_address_office" ColumnName="u_address_office" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

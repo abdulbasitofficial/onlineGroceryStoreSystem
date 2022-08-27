@@ -1,0 +1,105 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from colorlib.com/etc/bootstrap-sidebar/sidebar-01/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 18 Mar 2021 16:03:50 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>DASHBOARD</title>
+    <meta charset="utf-8">
+    <link href="~/dashboard/css/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="../../../../stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="p-4 pt-5">
+                <h1 style="color:white;font-size:30px;" align="center">@Session["type"]</h1>
+                @if (Session["email"] != null)
+                {
+                    if (Session["image"] != null)
+                    {
+                        String img64 = Convert.ToBase64String((byte[])Session["image"]);
+                        String img64Url = string.Format("data:image/" + Session["img-type"] + ";base64,{0}", img64);
+                        <center><img src="@img64Url" alt="Forest" style="height:200px;width:200px;border-radius: 50%;"></center><div style="font-size:20px;text-align:center;"> @Session["name"]</div>
+                        <hr style="color:white;" />
+                    }
+                    else
+                    {
+                        <center><img src="~/images/dp.png" alt="Forest" style="height:200px;width:200px;border-radius: 50%;"></center><div style="font-size:20px;text-align:center;"> @Session["name"]</div>
+                        <hr style="color:white;" />
+                    }
+
+                }
+                <ul class="list-unstyled components mb-5">
+
+                    <li>
+                        <a href='@Url.Action("DeliveryBoy", "DeliveryBoy")'>DASHBOARD</a>
+                    </li>
+                    @*<li>
+                        <a href='@Url.Action("OrdersDeliver", "DeliveryBoy")'>Undelivered Order (@Session["Undelivered"])</a>
+                    </li>*@
+                    <li>
+                        <a href='@Url.Action("PickedDetails", "DeliveryBoy")'>Picked Orders (@Session["Picked"])</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Boy_History", "History")'>History @*(@Session["History"])*@</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("LogOut", "Account")'>LogOut</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <div id="content" class="">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <h4 style="font-weight:bold"> @Session["name"]</h4>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i> Menu
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href='@Url.Action("DeliveryBoy", "DeliveryBoy")'>DASHBOARD</a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a class="nav-link" href='@Url.Action("OrdersDeliver", "DeliveryBoy")'>ORDERS</a>
+                            </li>*@
+                            <li class="nav-item">
+                                <a class="nav-link" href='@Url.Action("PickedDetails", "DeliveryBoy")'>Picked Orders</a>
+                            </li>
+                           
+                            <li class="nav-item">
+                                <a class="nav-link" href='@Url.Action("Boy_History", "History")'>HISTORY</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            @RenderBody()
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="~/dashboard/js/popper.js"></script>
+    <script src="~/dashboard/js/main.js"></script>
+    <script src="~/dashboard/js/jquery.min.js"></script>
+    <script src="~/dashboard/js/bootstrap.min.js"></script>
+</body>
+
+<!-- Mirrored from colorlib.com/etc/bootstrap-sidebar/sidebar-01/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 18 Mar 2021 16:03:54 GMT -->
+</html>

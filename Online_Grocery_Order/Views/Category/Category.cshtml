@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Category>
+
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/Javascript" language="javascript">
+
+    function confirm_Delete() {
+        if (confirm("Do you want to Delete ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function confirm_Update() {
+        if (confirm("Do you want to Update ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+</script>
+<div class="wrapper wrapper--w780">
+    <div class="card card-3">
+        <div class="card-heading"></div>
+        <div class="card-body">
+            <h2 class="title" style="text-align:center">Category</h2>
+            <div class="container">
+                <div class="container">
+                    <p>
+                        @Html.ActionLink("Add New Category", "AddCategory", "Category")
+                    </p>
+                    <table class="table">
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Category_Name)
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.Insert_Date)
+                            </th>*@
+                            <th>
+                                Update
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category_Name)
+                                </td>
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.Insert_Date)
+                                </td>*@
+                                <td>
+                                    <a href='@Url.Action("Edit", "Category",new { id = item.Category_ID } )' OnClick=" return confirm_Update()"><i class="fa fa-edit" style="font-size:25px"></i></a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+
+                <div style="font-weight:100px;font-size:20px;">
+                    <ul class="inline">
+                        @{
+                            double totalpages = ViewBag.TotalPages;
+                            for (int i = 1; i <= totalpages; i++)
+                            {
+                                <li>
+                                    <div style="background-color:black;color:white;padding:10px;border-radius:10px;">
+                                        @Html.ActionLink(i.ToString(), "Category", new { Page = i })
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

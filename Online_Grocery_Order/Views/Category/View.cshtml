@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Category>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Add Category","Category", "Add")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Category_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Category_ID })
+        </td>
+    </tr>
+}
+
+</table>

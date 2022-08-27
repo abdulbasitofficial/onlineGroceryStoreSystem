@@ -1,0 +1,67 @@
+﻿@model Online_Grocery_Order.Models.Account
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<h2>User Information</h2>
+@if (Session["email"] != null)
+{
+    String img64 = Convert.ToBase64String((byte[])Session["image"]);
+    String img64Url = string.Format("data:image/" + Session["img-type"] + ";base64,{0}", img64);
+    <table style="padding:50%;" class="container">
+        <tr>
+            <td>
+                <div style="font-size:20px;">
+                    <table>
+                        <tr>
+                            <td><b></b></td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><img src="@img64Url" style="height:200px;width:200px;border-radius: 50%;"></td>
+                            <br />
+                        </tr>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td></td>
+                            <td>@Session["name"]</td>
+                        </tr>
+                        <tr>
+                            <td><b>Type</b></td>
+                            <td></td>
+                            <td>@Session["type"]</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Gender</b></td>
+                            <td></td>
+                            <td>@Session["gender"]</td>
+                        </tr>
+                        <tr>
+                            <td><b>Contact</b></td>
+                            <td></td>
+                            <td>@Session["contact"]</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>Email</b></td>
+                            <td></td>
+                            <td>@Session["email"]</td>
+                        </tr>
+                        <tr>
+                            <td><b>Address</b></td>
+                            <td></td>
+                            <td>@Session["address"]</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+}
+

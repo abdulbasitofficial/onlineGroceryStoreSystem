@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+
+@{
+    ViewBag.Title = "Boy_History";
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+
+<link href="~/notification/css/style.css" rel="stylesheet" />
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <div class="container" style="margin-bottom:0px;">
+        <h3 class="m-b-50 heading-line">History</h3>
+
+        <div class="">
+            @foreach (var file in Model)
+            {
+                <h6>Order No: @file.order_ID</h6>
+                <div class="notification-list notification-list--unread">
+                    <div class="notification-list_content">
+                        <div class="notification-list_img">
+                            @if (file.Account_img != null)
+                            {
+                                //String img64 = Convert.ToBase64String(file.Account_img);
+                                //String img64Url = string.Format("data:image/" + file.type_img + ";base64,{0}", img64);
+                                var base64 = Convert.ToBase64String(file.Account_img);
+                                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                <img src='@imgsrc' style="max-width:100px;max-height:100px" / >
+                            }
+                            else
+                            {
+                                <img src="~/images/logo2.png">
+                            }
+
+                        </div>
+                        <div class="notification-list_detail">
+                            <p><b>@file.Full_Name</b></p>
+
+                            <p class="text-muted"><middle><b>Order On:</b>@file.OrderDate</middle></p>
+                            <p class="text-muted"> <middle><b>Picked On: </b>@file.PickedDate</middle></p>
+                            <p class="text-muted"> <middle><b>Delivered: </b>@file.DeliveredDate</middle></p>
+                            <p class="text-muted">@file.Address</p>
+                        </div>
+                    </div>
+                    <div class="notification-list_feature-img" align="center">
+                        <div class="link-product-add"> <a href='@Url.Action("OrdersDetails", "Order", new { id = file.order_ID, name=file.Full_Name })' id="a1"><img src="~/assets/images/details.png" style="width:40px;height:40px;padding-right:10px;" /></a></div>
+                        <br />
+                        <div class="link-product-add"> 
+                       @if (file.statusOrder == "Cancel")
+                        {<i class="fa fa-close" style="font-size:30px;color:red"></i> }
+                        else {<i class="fa fa-check" style="font-size:30px;color:green"></i> }</div>
+                    </div>
+
+                </div>
+                <hr />
+            }
+
+
+
+        </div>
+
+    </div>
+

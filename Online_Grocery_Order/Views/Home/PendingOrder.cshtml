@@ -1,0 +1,279 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Product>
+
+@{
+    ViewBag.Title = "PendingOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <link href="~/assets/css/loading.css" rel="stylesheet" />
+    <div class="privacy">
+        <div class="container">
+            <!-- tittle heading -->
+            <h3 class="tittle-w3l">
+                Pending Order
+                <span class="heading-style">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+            </h3>
+            <!-- //tittle heading -->
+            <div class="checkout-right">
+                <div class="table-responsive">
+                    @if (Model.Count() > 0)
+                    {
+                        int orderno = 0;
+
+                        <table class="timetable_sub">
+                            <thead>
+                                <tr>
+                                    <th>SL No</th>
+                                    @*<th>Product</th>*@
+                                    <th>Product Name</th>
+                                    <th>Calories</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Total Price</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @{
+
+                                    int price = 0;
+                                    int sr = 0;
+                                    int total_calories = 0;
+                                    int total_bill = 0;
+                                    int sum_product;
+                                    int qty = 0;
+                                    foreach (var item in Model)
+                                    {
+                                        orderno = item.rid;
+
+                                        sum_product = 0;
+                                        qty = qty + item.Product_Quantity;
+                                        price = price + item.Product_Price;
+                                        sr = sr + 1;
+                                        sum_product = item.Product_Price * item.Product_Quantity;
+                                        total_bill = total_bill + sum_product;
+                                        total_calories = total_calories + item.Product_Calories;
+                                        //String img64 = Convert.ToBase64String(item.Product_img);
+                                        //String img64Url = string.Format("data:image/" + item.Type + ";base64,{0}", img64);
+
+
+                                        <tr class="rem1">
+                                            <td class="invert">@sr</td>
+                                            @*<td class="invert-image">
+                                    <a href="single2.html">
+                                        <img src="@img64Url" alt=" " class="img-responsive" style="width:50px;height:70px;">
+                                    </a>
+                                </td>*@
+
+
+                                            <td class="invert" style="text-align:left;">@item.Product_Name <b>(@item.Product_Unit Unit)</b></td>
+                                            <td class="invert">@item.Product_Calories / Unit</td>
+                                            <td class="invert">@item.Product_Price Rs</td>
+                                            <td class="invert">@item.Product_Quantity</td>
+                                            <td class="invert">@sum_product Rs</td>
+                                        </tr>
+
+                                    }
+                                    <tr style="font-weight: bold;font-size:20px;" class="rem1">
+
+                                        <td class="invert">Details</td>
+
+                                        <td class="invert">//</td>
+                                        <td class="invert">@total_calories</td>
+                                        <td class="invert">@price</td>
+                                        <td class="invert">@qty</td>
+
+                                        <td class="invert">@total_bill Rs</td>
+                                    </tr>
+                                    <tr class="rem1">
+                                        <td colspan="7">
+                                            <div class="col-md-12">
+
+                                                <table class="table" style="text-align:left;font-size:40px;padding:40px;" align="right">
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            Total Qauntity
+                                                        </td>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            @qty
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            Total Calories
+                                                        </td>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            @total_calories
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            Total Bill
+                                                        </td>
+                                                        <td style="text-align:left;font-size:15px;padding:15px">
+                                                            @total_bill /- Rs
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+                                            @*<td colspan="7" class="invert"><h2>Your Total Bill = @total_bill Rs </h2></td>*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        if (@ViewBag.Boy_Id != null)
+                        {
+                            <h3 style="text-align:center;"> Order NO : @orderno</h3>
+
+                            string status = ViewBag.Boy_Status;
+                            if (status.Equals("Picked"))
+                            {
+                                <table align="center" style="padding-left:50px;padding-right:50px;">
+                                    <tr>
+                                        <td>
+                                            <img src="~/assets/status/On Process.png" />
+                                        </td>
+
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/Pick Up.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>
+                                        @*<td>
+                                            <img src="~/assets/status/DeliveryW.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>*@
+                                        <td>
+                                            <img src="~/assets/status/Reached.png" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                            
+                            @*else if (status.Equals("Delivery"))
+                            {
+                                <table align="center">
+                                    <tr>
+                                        <td>
+                                            <img src="~/assets/status/On Process.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/Pick Up.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/Delivery.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/line.png" />
+                                        </td>
+                                        <td>
+                                            <img src="~/assets/status/Reached.png" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            }*@
+
+
+
+
+                            <br />
+                            @*<hr />
+                <marquee style="font-size:20px;color:red;">
+                    Note: Your Order Picked Now  => Refresh this page After little bit time to Check Status.
+                </marquee>
+
+                <hr />*@
+                            <table class="timetable_sub" style="text-align:left;font-size:30px;">
+                                <thead>
+                                    <tr>
+                                        <th>Boy Name</th>
+                                        <th>Boy Contact</th>
+                                        <th>Order Date</th>
+                                        <th>Picked Date</th>
+                                    </tr>
+                                </thead>
+                                <tr class="rem1">
+                                    <td>@ViewBag.Boy_Name</td>
+                                    <td>@ViewBag.Boy_Contact</td>
+                                    <td>@ViewBag.OrderDate</td>
+                                    <td>@ViewBag.PickDate</td>
+                                </tr>
+                                <tr class="rem1">
+                                    <td colspan="5">
+                                        <a href='@Url.Action("Delivered", "Order", new { id = orderno })' id="a1" class="btn btn-dark"><i class="fa fa-check" style="font-size:25px;color:white"></i></a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        }
+                        else
+                        {
+                            <table align="center" style="padding-left:50px;padding-right:50px;">
+                                <tr>
+                                    <td>
+                                        <img src="~/assets/status/On Process.png" />
+                                    </td>
+                                    
+                                    <td>
+                                        <img src="~/assets/status/line.png" />
+                                    </td>
+                                    <td>
+                                        <img src="~/assets/status/Pick UpW.png" />
+                                    </td>
+                                    <td>
+                                        <img src="~/assets/status/line.png" />
+                                    </td>
+                                    @*<td>
+                                        <img src="~/assets/status/DeliveryW.png" />
+                                    </td>
+                                    <td>
+                                        <img src="~/assets/status/line.png" />
+                                    </td>*@
+                                    <td>
+                                        <img src="~/assets/status/Reached.png" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <center><div class="loader"></div> <h3>Please Wait While Your Order Pick</h3></center>
+                            <h3 style="text-align:center;"> Order NO : @orderno</h3>
+                            <center>
+                                <a href='@Url.Action("Cancel", "Order", new { id = orderno })' id="a1" class="btn btn-danger">"Cancel My Order"</a>
+                            </center>
+
+                            @*<hr />
+                <marquee style="font-size:20px;color:red;">
+                    Please Wait .... While Your Order Pick => Refresh this page After Sometime to Check Status.
+                </marquee>
+                <hr />*@
+
+                        }
+
+                    }
+                    else
+                    {
+                        <h2>Record Empty</h2>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>

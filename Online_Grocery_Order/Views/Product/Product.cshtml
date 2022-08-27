@@ -1,0 +1,190 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Product>
+
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" />
+<script src="~/vendor/datepicker/moment.min.js"></script>
+<script src="~/vendor/select2/select2.min.js"></script>
+<link href="~/vendor/select2/select2.min.css" rel="stylesheet" />
+<link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" />
+<link href="~/vendor/mdi-font/css/material-design-iconic-font.css" rel="stylesheet" />
+<script src="~/vendor/datepicker/daterangepicker.js"></script>
+<script src="~/vendor/global.js"></script>
+<link href="~/vendor/datepicker/daterangepicker.css" rel="stylesheet" />
+<script src="~/vendor/jquery/jquery.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<link href="~/vendor/font-awesome-4.7/css/font-awesome.css" rel="stylesheet" />
+<script type="text/Javascript" language="javascript">
+
+    function confirm_Delete() {
+        if (confirm("Do you want to Delete ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function confirm_Update() {
+        if (confirm("Do you want to Update ! Click 'YES'") == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+</script>
+<div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w780">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title" style="text-align:center;">Products</h2>
+                <div class="container">
+                    <div class="container">
+                        <p>
+                            @Html.ActionLink("Add Product", "AddProduct", "Product")
+                        </p>
+                        <table class="table">
+                            <tr>
+
+                                <th>
+                                    @Html.DisplayName("Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Price")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Stock")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Unit")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Weight")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Calories")
+                                </th>
+                               
+                                <th>
+                                    @Html.DisplayName("Image")
+                                </th>
+                                @*<th>
+                                    @Html.DisplayName("Insertion")
+                                </th>*@
+                                <th>
+                                    Update
+                                </th>
+                                 <th>
+                                   Attach
+                                </th>
+
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                               
+                               
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product_Name)
+                            </td>
+                            <td>
+                                Rs. @Html.DisplayFor(modelItem => item.Product_Price)
+                            </td>
+                            <td>
+                                @if (item.Product_Quantity == 20)
+                                {
+                                    <p style="color:red;font-size:14px;">@item.Product_Quantity</p>
+                                }
+                                else
+                                {
+                                    <p style="font-size:14px;">@item.Product_Quantity</p>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product_Unit)
+                            </td>
+
+                            @if (item.Product_Weight >= 1000)
+                            {
+                                double weight = item.Product_Weight / 1000;
+                                <td>
+                                    @weight Kg
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product_Weight) gm
+                                </td>
+                            }
+
+                            @if (item.Product_Calories >= 1000)
+                            {
+                                double weight = item.Product_Calories / 1000;
+                                <td>
+                                    @weight Kcal / Unit
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product_Calories) Cal / Unit
+                                </td>
+                            }
+                            <td>
+                                @if (item.Product_img != null)
+                                {
+                                    String img64 = Convert.ToBase64String(item.Product_img);
+                                    String img64Url = string.Format("data:image/" + item.Type + ";base64,{0}", img64);
+                                    <img src="@img64Url" alt="Forest" style="height:50px;width:50px;border-radius:10px;">
+                                }
+                                else
+                                {
+                                    <img src="~/assets/1200px-Blue_question_mark_icon.svg.png" style="height:50px;width:50px;border-radius:10px;" />
+                                }
+                            </td>
+                            @*<td>
+            @Html.DisplayFor(modelItem => item.Insert_Date)
+        </td>*@
+                            <td>
+                                <a href='@Url.Action("Edit", "Product",new { id = item.Product_ID } )' OnClick=" return confirm_Update()"><i class="fa fa-edit" style="font-size:25px"></i></a>
+
+                            </td>
+                           
+                                <td>
+                                    <a href='@Url.Action("Attach_Now", "Product",new { id = item.Product_ID } )' class="btn btn-primary">Attach Now</a>
+                                </td>
+                           
+                        </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div style="font-weight:100px;font-size:20px;">
+                        <ul class="inline">
+                            @{
+                                double totalpages = ViewBag.TotalPages;
+                                for (int i = 1; i <= totalpages; i++)
+                                {
+                                    <li>
+                                        <div style="background-color:black;color:white;padding:10px;border-radius:10px;">
+                                            @Html.ActionLink(i.ToString(), "Product", new { Page = i })
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

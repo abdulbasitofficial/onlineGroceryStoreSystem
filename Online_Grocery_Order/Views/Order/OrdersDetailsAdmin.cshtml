@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Product>
+
+@{
+    ViewBag.Title = "OrdersDetailsAdmin";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+
+
+    <div class="container">
+        <br />
+        <!-- tittle heading -->
+        <h4 class="tittle-w3l" align="center">
+            <b style="color:blue"> Order Details Of @ViewBag.Name</b>
+            <br />
+            @ViewBag.Address
+        </h4>
+        <hr />
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <div class="table-responsive">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Product</th>
+                            <th>Product Name</th>
+                            <th>Qty</th>
+                            @*<th>Calories</th>*@
+                            <th>Calories</th>
+                            <th>Price</th>
+                            <th>Total</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+
+                            int price = 0;
+                            int calories = 0;
+                            int sr = 0;
+                            int total_calories = 0;
+                            int total_bill = 0;
+                            int sum_product, sum_cakories;
+                            int qty = 0;
+                            foreach (var item in Model)
+                            {
+
+                                sum_product = 0;
+                                qty = qty + item.Product_Quantity;
+                                price = price + item.Product_Price;
+                                calories = calories + item.Product_Calories;
+                                sr = sr + 1;
+                                sum_cakories = item.Product_Calories * item.Product_Quantity;
+                                sum_product = item.Product_Price * item.Product_Quantity;
+                                total_bill = total_bill + sum_product;
+
+                                total_calories = total_calories + sum_cakories;
+                                String img64 = Convert.ToBase64String(item.Product_img);
+                                String img64Url = string.Format("data:image/" + item.Type + ";base64,{0}", img64);
+
+
+                                <tr class="rem1">
+                                    <td class="invert">@sr</td>
+                                    <td class="invert-image">
+                                        <a href="single2.html">
+                                            <img src="@img64Url" alt=" " class="img-responsive" style="width:50px;height:50px;">
+                                        </a>
+                                    </td>
+
+
+                                    <td class="invert">@item.Product_Name |<b> @item.Product_Calories (cal) / unit</b><b>@*(@item.Product_Unit Unit)*@</b></td>
+                                    <td class="invert">@item.Product_Quantity</td>
+                                    @*<td class="invert">@item.Product_Calories /unit</td>*@
+                                    <td class="invert">@sum_cakories</td>
+                                    <td class="invert">@item.Product_Price Rs</td>
+                                    <td class="invert">@sum_product Rs</td>
+                                </tr>
+
+                            }
+                            <tr style="font-weight: bold;font-size:15px;" class="rem1">
+
+                                <td class="invert" colspan="3" style="text-align:center">Details</td>
+
+                                <td class="invert">@qty</td>
+                                @*<td class="invert">@calories (cal)</td>*@
+                                <td class="invert">@total_calories (cal)</td>
+                                <td class="invert">@price Rs</td>
+                                <td class="invert">@total_bill Rs</td>
+                            </tr>
+                            <tr class="rem1">
+                                <td colspan="7" class="invert"><h3 style="color:blue;" align="right">Total Bill : @total_bill Rs | Calories : @total_calories (cal) </h3></td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,94 @@
+﻿@model Online_Grocery_Order.Models.Product
+
+@{
+    ViewBag.Title = "Attach_Now";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+    <div class="container">
+        <table>
+            <tr>
+                <td>
+                    <div class="col-md-4 single-right-left ">
+                        <div class="grid images_3_of_2">
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    @{
+                                        String img64 = Convert.ToBase64String(Model.Product_img);
+                                        String img64url = string.Format("data:image/" + Model.Type + ";base64,{0}", img64);
+
+                                        <img src="@img64url" alt="Forest" style="height:200px;width:200px;">
+                                    }
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-4 single-right-left simpleCart_shelfItem">
+                        <h3>@Html.DisplayFor(model => model.Product_Name) </h3>
+
+                        <div class="product-single-w3l">
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Calories) Calories / Unit
+                            </p>
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Unit) Unit
+                            </p>
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Weight) g Weight
+                            </p>
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Price) Rs
+                            </p>
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i>@Html.DisplayFor(model => model.Product_Price) Rs
+                            </p>
+                            <p>
+                                <i class="fa fa-hand-o-right" aria-hidden="true"></i> <label>Free delivery</label>
+                            </p>
+                        </div>
+                      
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+       
+       
+        <div class="clearfix"> </div>
+    </div>
+<div class="container">
+    @using (Html.BeginForm("Attach_Now", "Product", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <table>
+                    <tr>
+                        <td class="col-md-12">
+                            <div>
+                                <input type="text"  name="attach" value="@Model.Product_ID" style="visibility:hidden"/>
+                                @Html.DropDownList("pid", new SelectList(ViewBag.Product_list, "Value", "Text"), "-Attach Items -", new { @class = "form-control", style = "text-align:left;font-size:20px;height:40px;border-radius:30px;" })
+                                @Html.ValidationMessage("pid", "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Attach Now</button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+    }
+</div>

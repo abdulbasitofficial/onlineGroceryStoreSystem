@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Online_Grocery_Order.Models.Account>
+@{
+    ViewBag.Title = "OrdersDeliver";
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+   
+<link href="~/notification/css/style.css" rel="stylesheet" />
+<link href="~/css/font-awesome.min.css" rel="stylesheet" />
+<section class="section-50">
+    <div class="container">
+      
+        <h3 class="m-b-50 heading-line">Undelivered</h3>
+
+
+        <div class="notification-ui_dd-content">
+
+
+            @foreach (var file in Model)
+            {
+                @*<h5>Order ID: @file.order_ID</h5>*@
+                <div class="notification-list notification-list--unread">
+                    <div class="notification-list_content">
+                        <div class="notification-list_img">
+                            @if (file.Account_img != null)
+                            {
+                                String img64 = Convert.ToBase64String(file.Account_img);
+                                String img64Url = string.Format("data:image/" + file.type_img + ";base64,{0}", img64);
+                                <img src='@img64Url' style="max-width:100px;max-height:100px" / >
+                            }
+                            else
+                            {
+                                <img src="~/images/logo2.png">
+                            }
+
+                        </div>
+                        <div class="notification-list_detail">
+                            <p style="font-size:20px;"><b>@file.Full_Name</b> (Order No: @file.order_ID)</p>
+                            <p class="text-muted" style="font-size:15px;">@file.Address</p>
+                            <p class="text-muted" style="font-size:20px;"><small>@file.Register_Date</small></p>
+                        </div>
+                    </div>
+                    <div class="notification-list_feature-img" align="center">
+                        <div class="link-product-add">
+                            <a href='@Url.Action("OrdersDetails", "Order", new { id = file.order_ID, name=file.Full_Name })' id="a1"><img src="~/assets/images/details.png" style="width:40px;height:40px;" /></a>
+                        </div>
+                        <br />
+                        <div class="link-product-add">
+                            <a href='@Url.Action("Picked", "Order",new { id = file.order_ID })' id="a1"><img src="~/assets/images/picked.png" style="width:40px;height:40px;" /></a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+
+    </div>
+</section>
+<style>
+    /* unvisited link */
+    #a1:link {
+        color: white;
+    }
+
+    .a1:link {
+        color: white;
+    }
+
+    /* visited link */
+    #a1:visited {
+        color: white;
+    }
+
+    /* mouse over link */
+    #a1:hover {
+        color:orange;
+    }
+
+    /* selected link */
+    #a1:active {
+        color: blue;
+    }
+</style>
